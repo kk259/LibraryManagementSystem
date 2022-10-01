@@ -3,6 +3,8 @@ package com.example.demo.Library;
 import com.example.demo.Library.Entity.Book;
 import com.example.demo.Library.Entity.BookStock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,7 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/library")
-public class LibraryController {
+public class LibraryController implements Controller {
     public final LibraryService libraryService;
     @Autowired
     public LibraryController(LibraryService libraryService){
@@ -25,13 +27,13 @@ public class LibraryController {
     }
 
     @GetMapping
-    public List<BookStock> getInventory(){
-        return libraryService.getInventory();
+    public ResponseEntity<List<BookStock>> getInventory(){
+        return ResponseEntity.status(HttpStatus.OK).body(libraryService.getInventory());
     }
 
     @GetMapping("/books")
-    public List<Book> showAllBooks(){
-        return libraryService.showAllBooks();
+    public ResponseEntity<List<Book>>  showAllBooks(){
+        return ResponseEntity.status(HttpStatus.OK).body(libraryService.showAllBooks());
     }
 
     @PutMapping(path="{isbn}")
@@ -66,12 +68,12 @@ public class LibraryController {
     }
 
     @GetMapping("/title/{title}")
-    public List<BookStock> searchBookByTitle(@PathVariable(name = "title") String bookTitle){
-        return libraryService.searchBookByTitle(bookTitle);
+    public ResponseEntity<List<BookStock>> searchBookByTitle(@PathVariable(name = "title") String bookTitle){
+        return ResponseEntity.status(HttpStatus.OK).body(libraryService.searchBookByTitle(bookTitle));
     }
     @GetMapping("/author/{author}")
-    public List<BookStock> searchBookByAuthor(@PathVariable(name = "author") String author){
-        return libraryService.searchBookByAuthor(author);
+    public ResponseEntity<List<BookStock>> searchBookByAuthor(@PathVariable(name = "author") String author){
+        return ResponseEntity.status(HttpStatus.OK).body(libraryService.searchBookByAuthor(author));
     }
 }
 

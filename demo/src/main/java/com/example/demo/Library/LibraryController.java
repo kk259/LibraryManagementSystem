@@ -30,11 +30,6 @@ public class LibraryController implements Controller {
     @Autowired
     private ModelMapper modelMapper;
 
-
-    //@PostMapping
-//    public void addBooks(@RequestBody BookStock bookStock){
-//        libraryService.addBooks(bookStock);
-//    }
     @PostMapping
     public String addBooks(@RequestParam int isbn,@RequestParam String title
             ,@RequestParam String author,@RequestParam int noOfCopies){

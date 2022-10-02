@@ -14,4 +14,5 @@ public interface BookRepository extends JpaRepository<Book,Integer> {
 
     @Query
     Book findBookByBookId(int bookId);
+
 }

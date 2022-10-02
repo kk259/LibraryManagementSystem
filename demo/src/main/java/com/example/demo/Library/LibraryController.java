@@ -1,13 +1,18 @@
 package com.example.demo.Library;
 
+import com.example.demo.Library.DTO.BookDto;
+import com.example.demo.Library.DTO.BookStockDto;
 import com.example.demo.Library.Entity.Book;
 import com.example.demo.Library.Entity.BookStock;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,19 +26,37 @@ public class LibraryController implements Controller {
     public LibraryController(LibraryService libraryService){
         this.libraryService = libraryService;
     }
+
+    @Autowired
+    private ModelMapper modelMapper;
+
     @PostMapping
     public void addBooks(@RequestBody BookStock bookStock){
         libraryService.addBooks(bookStock);
     }
 
-    @GetMapping
-    public ResponseEntity<List<BookStock>> getInventory(){
-        return ResponseEntity.status(HttpStatus.OK).body(libraryService.getInventory());
+    private BookStockDto convertToBookStockDto(BookStock bookStock) {
+        return modelMapper.map(bookStock,BookStockDto.class);
+    }
+    private BookDto convertToBookDto(Book book) {
+        return modelMapper.map(book,BookDto.class);
     }
 
+    @GetMapping
+    public List<BookStockDto> getInventory(){
+        List<BookStock> bookStocks  = libraryService.getInventory();
+        return bookStocks.stream()
+                .map(this::convertToBookStockDto)
+                .collect(Collectors.toList());
+    }
+
+
     @GetMapping("/books")
-    public ResponseEntity<List<Book>>  showAllBooks(){
-        return ResponseEntity.status(HttpStatus.OK).body(libraryService.showAllBooks());
+    public List<BookDto>  showAllBooks(){
+        List<Book>books= libraryService.showAllBooks();
+        return books.stream()
+                .map(this::convertToBookDto)
+                .collect(Collectors.toList());
     }
 
     @PutMapping(path="{isbn}")
@@ -68,12 +91,18 @@ public class LibraryController implements Controller {
     }
 
     @GetMapping("/title/{title}")
-    public ResponseEntity<List<BookStock>> searchBookByTitle(@PathVariable(name = "title") String bookTitle){
-        return ResponseEntity.status(HttpStatus.OK).body(libraryService.searchBookByTitle(bookTitle));
+    public List<BookStockDto> searchBookByTitle(@PathVariable(name = "title") String bookTitle){
+        List<BookStock> bookStocks = libraryService.searchBookByTitle(bookTitle);
+        return bookStocks.stream()
+                .map(this::convertToBookStockDto)
+                .collect(Collectors.toList());
     }
     @GetMapping("/author/{author}")
-    public ResponseEntity<List<BookStock>> searchBookByAuthor(@PathVariable(name = "author") String author){
-        return ResponseEntity.status(HttpStatus.OK).body(libraryService.searchBookByAuthor(author));
+    public List<BookStockDto> searchBookByAuthor(@PathVariable(name = "author") String author){
+        List<BookStock> bookStocks = libraryService.searchBookByAuthor(author);
+        return bookStocks.stream()
+                .map(this::convertToBookStockDto)
+                .collect(Collectors.toList());
     }
 }
 

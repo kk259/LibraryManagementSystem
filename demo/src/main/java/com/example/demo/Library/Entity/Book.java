@@ -34,6 +34,14 @@ public class Book {
         this.customerID = customerID;
     }
 
+    public Book(int bookId, int isbn, LocalDate issuedDate, int returnDays, int customerID) {
+        this.bookId = bookId;
+        this.isbn = isbn;
+        this.issuedDate = issuedDate;
+        this.returnDays = returnDays;
+        this.customerID = customerID;
+    }
+
     public int getCustomerID() {
         return customerID;
     }

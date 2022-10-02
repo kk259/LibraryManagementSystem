@@ -4,6 +4,7 @@ import com.example.demo.Library.Entity.Book;
 import com.example.demo.Library.Entity.BookStock;
 import com.example.demo.Library.Repository.LibraryRepository;
 import com.example.demo.Library.Repository.BookRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,5 +21,9 @@ public class LibraryConfig {
             bookInformationRepository.save(bookStock);
             bookRepository.save(book);
         };
+    }
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
     }
 }

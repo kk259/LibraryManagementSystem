@@ -1,5 +1,7 @@
 package com.example.demo.Library;
 
+import com.example.demo.Library.DTO.BookDto;
+import com.example.demo.Library.DTO.BookStockDto;
 import com.example.demo.Library.Entity.Book;
 import com.example.demo.Library.Entity.BookStock;
 import org.springframework.http.HttpStatus;
@@ -12,10 +14,10 @@ public interface Controller {
     @PostMapping
     public void addBooks(@RequestBody BookStock bookStock);
     @GetMapping
-    public ResponseEntity<List<BookStock>> getInventory();
+    public List<BookStockDto> getInventory();
 
     @GetMapping("/books")
-    public ResponseEntity<List<Book>>  showAllBooks();
+    public List<BookDto>  showAllBooks();
 
     @PutMapping(path="{isbn}")
     public String issueBook(@PathVariable(name = "isbn") int isbn, @RequestParam int customerId);
@@ -29,7 +31,7 @@ public interface Controller {
     public String extendReturnTime(@PathVariable(name = "bookId") int bookId,@RequestParam int extension);
 
     @GetMapping("/title/{title}")
-    public ResponseEntity<List<BookStock>> searchBookByTitle(@PathVariable(name = "title") String bookTitle);
+    public List<BookStockDto> searchBookByTitle(@PathVariable(name = "title") String bookTitle);
     @GetMapping("/author/{author}")
-    public ResponseEntity<List<BookStock>> searchBookByAuthor(@PathVariable(name = "author") String author);
+    public List<BookStockDto> searchBookByAuthor(@PathVariable(name = "author") String author);
 }

@@ -17,7 +17,6 @@ class LibraryRepositoryTest {
         BookStock bookStock  = new BookStock(1234,"gain","raj",2,0);
         underTest.save(bookStock);
         boolean expected = underTest.existsByIsbn(1234);
-        //boolean expected = underTest.existsByIsbn(12345);
         assertThat(expected).isTrue();
     }
 }

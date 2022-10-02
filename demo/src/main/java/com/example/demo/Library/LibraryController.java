@@ -30,11 +30,21 @@ public class LibraryController implements Controller {
     @Autowired
     private ModelMapper modelMapper;
 
-    @PostMapping
-    public void addBooks(@RequestBody BookStock bookStock){
-        libraryService.addBooks(bookStock);
-    }
 
+    //@PostMapping
+//    public void addBooks(@RequestBody BookStock bookStock){
+//        libraryService.addBooks(bookStock);
+//    }
+    @PostMapping
+    public String addBooks(@RequestParam int isbn,@RequestParam String title
+            ,@RequestParam String author,@RequestParam int noOfCopies){
+        if(isbn==0){
+            return "isbn can't be 0";
+        }
+        BookStock bookStock = new BookStock(isbn,title,author,noOfCopies,0);
+        libraryService.addBooks(bookStock);
+        return "books are added successfully";
+    }
     private BookStockDto convertToBookStockDto(BookStock bookStock) {
         return modelMapper.map(bookStock,BookStockDto.class);
     }

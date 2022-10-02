@@ -12,7 +12,9 @@ import java.util.List;
 
 public interface Controller {
     @PostMapping
-    public void addBooks(@RequestBody BookStock bookStock);
+    public String addBooks(@RequestParam int isbn,@RequestParam String title
+            ,@RequestParam String author,@RequestParam int noOfCopies);
+
     @GetMapping
     public List<BookStockDto> getInventory();
 

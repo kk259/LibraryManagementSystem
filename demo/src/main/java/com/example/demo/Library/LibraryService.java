@@ -37,6 +37,7 @@ public class LibraryService {
             changeQuantity(preexistingBookStock, preexistingBookStock.getTotalCopies()+ bookStock.getTotalCopies());
         }
         for(int i=0;i<n;i++){
+            System.out.println();
             Book book = new Book(isbn);
             bookRepository.save(book);
         }
